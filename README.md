@@ -1,5 +1,5 @@
-# Comp-Engine Scrapper
-Since [comp-engine.org](https://www.comp-engine.org/) seems to not offer an option to download all data in a single click anymore, I've made this script to get all data automatically.
+# Comp-Engine Scraper
+Since [comp-engine.org](https://www.comp-engine.org/) seems to not offer an option to download all data with a quick single click anymore, I've made this script to get all data automatically.
 
 The website is dynamically rendered, which means that a simple http request won't solve the problem. Therefore, here I'm using Selenium to scrape data automatically through a real web browser.
 
