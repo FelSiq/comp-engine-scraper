@@ -39,15 +39,15 @@ python scrape.py synthetic 150 325
 ```
 
 ### merge_data.py
-After downloading all your zip files, it is natural that you want a single .csv file containing all data, and not a bunch of .zip files. Luckly for you, I've made a script that solves this issue so you don't have to: 'merge_data.py'.
+After downloading all your zip files, it is natural that you want a single .csv file containing all data, and not a bunch of .zip files. Luckily for you, I've made a script that solves this issue so you don't have to: 'merge_data.py'.
 ```
 python merge_data.py [-h] [--no-unzip] [--no-clean] data_type
 ```
 **Where:**
 - **data_type:** same as 'scrape.py';
 - **-h:** shows help;
-- **--no-unzip:** in case you already unzipped all files by yourself, use this option;
-- **--no-clean:** in case you whant to keep all .csv fragments from each .zip file after merging.
+- **--no-unzip:** use this option in case you already unzipped all files by yourself. Note that the .csv fragments must be within the same directory as the .zip files;
+- **--no-clean:** in case you whant to keep all .csv fragments (stored in the same directory as the .zip files) from each .zip file after merging.
 
 ## Dev notes
-- I'm using Firefox as the web browser. If you have Python and Selenium understandings, you may easily rewrite the scrape.py script to use another web browser supported.
+- I'm using Firefox as the web browser to scrape data. If you have Python and Selenium understandings, you may easily rewrite some lines of code in the scrape.py script to use another web browser. Good luck.
