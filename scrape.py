@@ -14,7 +14,7 @@ parser = argparse.ArgumentParser(description="Scrape data from 'comp-engine.org'
 parser.add_argument(
     "data_type",
     type=str,
-    help="Type of time-series to retrieve. Must be in {'real', 'synthetic', 'unnasigned'}.",
+    help="Type of time-series to retrieve. Must be in {'real', 'synthetic', 'unassigned'}.",
 )
 
 parser.add_argument(
@@ -39,7 +39,7 @@ args = parser.parse_args()
 
 data_type = args.data_type
 
-VALID_DATA_TYPE = {"synthetic", "real", "unnasigned"}
+VALID_DATA_TYPE = {"synthetic", "real", "unassigned"}
 
 assert (
     data_type in VALID_DATA_TYPE
