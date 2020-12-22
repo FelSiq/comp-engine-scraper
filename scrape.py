@@ -30,7 +30,7 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    "--headless",
+    "--render",
     action="store_true",
     help="If given, does not render firefox while retrieving data.",
 )
@@ -53,8 +53,7 @@ assert 0 < start_on_page <= end_on_page, (
     "Please pick another page indices."
 )
 
-headless = args.headless
-
+headless = not args.render
 
 base_output_dir_path = os.path.dirname(os.path.realpath(__file__))
 output_dir = os.path.join(base_output_dir_path, f"zip_files_{data_type}")
