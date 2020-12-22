@@ -6,7 +6,7 @@ The website is dynamically rendered, which means that a simple http request won'
 ## Installation
 After cloning this repository into your local machine:
 ```
-python install -Ur requirements.txt
+pip install -Ur requirements.txt
 ```
 
 ## Usage
