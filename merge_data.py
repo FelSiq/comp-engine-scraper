@@ -73,6 +73,11 @@ for j, files in enumerate(("datapoints", "metadata")):
     path = os.path.join(input_dir, f"comp-engine-export-{files}-*.csv")
     all_files = glob.glob(path)
 
+    if not all_files:
+        raise RuntimeError(
+            f"No data found. Did you ran 'scrape.py' for '{data_type}' data already?"
+        )
+
     data = []
 
     for i, filename in enumerate(all_files):
