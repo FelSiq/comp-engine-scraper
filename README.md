@@ -24,8 +24,8 @@ python scrape.py [-h] [--render] data_type start_on_page end_on_page
 - **data_type:** must be 'real', 'synthetic' or 'unassigned';
 - **start_on_page:** which page to start scrapping on. Must be 1 or larger;
 - **end_on_page:** which page to end scrapping. Must be equal or larger than 'start_on_page';
-- **-h:** shows help;
-- **--render:** if not given, retrieve data using Firefox --headless option.
+- **-h:** shows script help menu;
+- **--render:** whether to render or not the web browser while scrapping data. If not given, retrieve data using Firefox --headless option.
 
 #### Examples:
 Recovers the first 100 pages of real time-series:
@@ -45,9 +45,9 @@ python merge_data.py [-h] [--no-unzip] [--no-clean] data_type
 ```
 **Where:**
 - **data_type:** same as 'scrape.py';
-- **-h:** shows help;
+- **-h:** shows script help menu;
 - **--no-unzip:** use this option in case you already unzipped all files by yourself. Note that the .csv fragments must be within the same directory as the .zip files;
-- **--no-clean:** in case you whant to keep all .csv fragments (stored in the same directory as the .zip files) from each .zip file after merging.
+- **--no-clean:** in case you want to keep all .csv fragments (stored in the same directory as the .zip files) from each .zip file after merging.
 
 #### Examples:
 Merge all real time-series .zip files into a single .csv:
