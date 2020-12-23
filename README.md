@@ -49,5 +49,15 @@ python merge_data.py [-h] [--no-unzip] [--no-clean] data_type
 - **--no-unzip:** use this option in case you already unzipped all files by yourself. Note that the .csv fragments must be within the same directory as the .zip files;
 - **--no-clean:** in case you whant to keep all .csv fragments (stored in the same directory as the .zip files) from each .zip file after merging.
 
+#### Examples:
+Merge all real time-series .zip files into a single .csv:
+```
+python merge_data.py real
+```
+Merge all synthetic time-series .zip files into a single .csv:
+```
+python merge_data.py synthetic
+```
+
 ## Dev notes
 - I'm using Firefox as the web browser to scrape data. If you have Python and Selenium understandings, you may easily rewrite some lines of code in the scrape.py script to use another web browser. Good luck.
