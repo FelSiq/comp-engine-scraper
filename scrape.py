@@ -41,7 +41,7 @@ def parse_args():
     parser.add_argument(
         "--num-cpu",
         type=int,
-        default=0,
+        default=4,
         help=(
             "Number of cores to download data in parallel. Set 0 to use "
             "all cores available, but beware about server timeouts."
@@ -93,10 +93,10 @@ def parse_args():
     return url_base, start_on_page, end_on_page, output_dir, headless, args.num_cpu
 
 
-def get_selenium_path_and_options(output_dir: str, headless: bool):
+def get_selenium_path_and_options(id: int, output_dir: str, headless: bool):
     path = pyderman.install(
         browser=pyderman.firefox,
-        file_directory="./fire",
+        file_directory=f"./pyderman/firefox_{id}",
         verbose=True,
         chmod=True,
         overwrite=False,
@@ -117,8 +117,10 @@ def get_selenium_path_and_options(output_dir: str, headless: bool):
 
 
 def get_pages(
+    id: int,
+    output_dir: str,
+    headless: bool,
     id_queue: multiprocessing.Queue,
-    driver,
     processed_ids: multiprocessing.Queue,
     print_lock: multiprocessing.Lock,
     total_pages: int,
@@ -127,6 +129,9 @@ def get_pages(
     delay_after_download: float,
     fail_ids: multiprocessing.Queue,
 ):
+    path, options = get_selenium_path_and_options(id, output_dir, headless)
+    driver = selenium.webdriver.Firefox(options=options, executable_path=path)
+
     while not id_queue.empty():
         i = id_queue.get()
 
@@ -166,21 +171,19 @@ def get_pages(
         finally:
             print_lock.release()
 
-    print(f"Worker (id {os.getpid()}) finished its work. Will quit in 10 seconds.")
-    time.sleep(10)
+    print(f"Worker (id {os.getpid()}) finished its work. Will quit in 60 seconds.")
+    time.sleep(60)
     return True
 
 
 def run():
     url_base, start_on_page, end_on_page, output_dir, headless, num_cpu = parse_args()
-    path, options = get_selenium_path_and_options(output_dir, headless)
 
     print_lock = multiprocessing.Lock()
     id_queue = multiprocessing.Queue()
     processed_ids = multiprocessing.Queue()
     fail_ids = multiprocessing.Queue()
     processes = []
-    drivers = []
     xpath = "//*[contains(text(), 'Download all on page')]"
     delay_after_download = 0.05
 
@@ -188,18 +191,23 @@ def run():
         id_queue.put(i)
 
     total_pages = id_queue.qsize()
-    num_cpu = min(num_cpu if num_cpu else multiprocessing.cpu_count(), id_queue.qsize())
+    num_cpu = min(
+        multiprocessing.cpu_count(),
+        num_cpu if num_cpu else multiprocessing.cpu_count(),
+        id_queue.qsize(),
+    )
 
     print(f"Will run on {num_cpu} cpu(s) (of {multiprocessing.cpu_count()} available).")
 
     # Note: create one driver and get pages in parallel
     for i in range(num_cpu):
-        driver = selenium.webdriver.Firefox(options=options, executable_path=path)
         p = multiprocessing.Process(
             target=get_pages,
             args=(
+                i,
+                output_dir,
+                headless,
                 id_queue,
-                driver,
                 processed_ids,
                 print_lock,
                 total_pages,
@@ -211,15 +219,10 @@ def run():
         )
         processes.append(p)
         p.start()
-        drivers.append(driver)
 
     # Note: join processes and await each one finishes
     for p in processes:
         p.join()
-
-    # Note: clean up drivers
-    while drivers:
-        drivers.pop().quit()
 
     print("All done! Will end process soon.")
 
