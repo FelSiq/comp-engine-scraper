@@ -1,4 +1,6 @@
 # Comp-Engine Scraper
+**Note:** Now it seems that you actually can download all data from CompEngine.org in a single click again. Since I don't know if that resource will be shut down once again in the future, I'll keep this code available just in case.
+
 Since [comp-engine.org](https://www.comp-engine.org/) seems to not offer an option to download all data with a quick single click anymore, I've made this script to get all data automatically.
 
 The website is dynamically rendered, which means that a simple http request won't solve the problem. Therefore, here I'm using Selenium to scrape data automatically through a real web browser.
