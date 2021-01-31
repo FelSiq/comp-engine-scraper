@@ -160,12 +160,14 @@ def get_pages(
         try:
             print(
                 f"Got {processed_ids.qsize():4d} of {total_pages} pages (worker id {os.getpid()})"
-                f"({100 * (processed_ids.qsize()) / (total_pages)}%)."
+                f"({100 * (processed_ids.qsize()) / (total_pages):.2f}%)."
             )
 
         finally:
             print_lock.release()
 
+    print(f"Worker (id {os.getpid()}) finished its work. Will quit in 10 seconds.")
+    time.sleep(10)
     return True
 
 
@@ -220,8 +222,9 @@ def run():
         drivers.pop().quit()
 
     print("All done! Will end process soon.")
-    print(f"Failed in {fail_ids.qsize()} pages. Maybe try again later?")
-    time.sleep(10)
+
+    if fail_ids.qsize():
+        print(f"Failed in {fail_ids.qsize()} pages. Maybe try again later?")
 
 
 if __name__ == "__main__":
